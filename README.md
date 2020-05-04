@@ -12,4 +12,5 @@ If nothing happens after a while its likely there is an error, open your browser
 - [Bootstrap Material Design](https://fezvrasta.github.io/bootstrap-material-design/)
 - [DemoFile](https://saul.github.io/demofile/)
 - [JQuery](https://jquery.com/)
+- [PopperJS](https://popper.js.org/)
 - [Single Element CSS Spinners](https://projects.lukehaas.me/css-loaders/)

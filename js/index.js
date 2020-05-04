@@ -93,6 +93,8 @@ let Parser = (function () {
 
 			let chCode = $("<td></td>");
 			chCode.text(player.resourceProp("m_szCrosshairCodes"));
+			chCode.attr("data-content", "Copied to Clipboard");
+			chCode.on("click", _OnChCodeClicked);
 
 			tr.append(name).append(steamID).append(chCode);
 
@@ -101,9 +103,26 @@ let Parser = (function () {
 
 		let children = $("#file-table > .table > tbody").children().length;
 		if (children > 0) {
-			$("#file-table").css("display",  "");
+			$("#file-table").css("display", "");
 			$("#spinner").css("display", "none");
 		}
+	};
+
+	let _OnChCodeClicked = async (ev) => {
+		let access = await navigator.permissions.query({
+			name: "clipboard-write"
+		});
+		if (access.state === "denied") {
+			alert("Cannot copy paste to clipboard due to browser restrictions.");
+			return;
+		}
+
+		let el = $(ev.target);
+		let chCode = el.text();
+		await navigator.clipboard.writeText(chCode);
+
+		el.popover("show");
+		setTimeout(() => el.popover("hide"), 1000);
 	};
 
 	return {
