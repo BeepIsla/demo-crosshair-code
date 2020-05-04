@@ -4,7 +4,7 @@ Parse crosshair codes out of any CSGO demo you want!
 
 If nothing happens after a while its likely there is an error, open your browser-console and report it.
 
-**Available at [beepisla.github.io/demo-crosshair-code](https://beepisla.github.io/demo-crosshair-code)**
+**Available at [beepisla.github.io/demo-crosshair-code](https://beepisla.github.io/demo-crosshair-code/)**
 
 # Credits
 
