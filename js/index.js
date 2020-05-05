@@ -39,6 +39,17 @@ let Parser = (function () {
 	};
 
 	let _Event_RoundStart = (ev) => {
+		if (_objDemo.header.networkProtocol < 13748) {
+			_objDemo.cancel();
+			alert("Failed to parse: Demo too old\n\nOnly demos recorded after version 1.37.4.8 (Released 16h April 2020) can be parsed.");
+
+			$("#file-table").css("display", "none");
+			$("#wait-for-file").css("display", "");
+			$("#spinner").css("display", "none");
+			$("#file-table > .table > tbody").empty();
+			return;
+		}
+
 		let playersThisRound = _objDemo.players.filter(p => !p.isFakePlayer && !p.isHltv);
 		_intPlayerCountHistory.push(playersThisRound.length);
 
