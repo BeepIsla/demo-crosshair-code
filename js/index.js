@@ -19,6 +19,13 @@ let Parser = (function () {
 		console.log(file);
 	};
 
+	let _Reset = () => {
+		$("#file-table").css("display", "none");
+		$("#wait-for-file").css("display", "");
+		$("#spinner").css("display", "none");
+		$("#file-table > .table > tbody").empty();
+	};
+
 	let _FileLoaded = (buffer) => {
 		_aryPlayerInfos.length = 0;
 		_intMaxPlayers = -1;
@@ -31,7 +38,18 @@ let Parser = (function () {
 		_objDemo = new demofile.DemoFile();
 		_objDemo.gameEvents.on("server_spawn", _Event_ServerSpawn);
 		_objDemo.gameEvents.on("round_start", _Event_RoundStart);
-		_objDemo.parse(buffer);
+		_objDemo.on("error", _Event_Error);
+		try {
+			_objDemo.parse(buffer);
+		} catch (err) {
+			_Event_Error(err);
+		}
+	};
+
+	let _Event_Error = (err) => {
+		console.error(err);
+		alert("An error occurred, check your console for more information.\n\nCounter-Strike 2 is not currently supported.");
+		_Reset();
 	};
 
 	let _Event_ServerSpawn = (ev) => {
@@ -43,10 +61,7 @@ let Parser = (function () {
 			_objDemo.cancel();
 			alert("Failed to parse: Demo too old\n\nOnly demos recorded after version 1.37.4.8 (Released 16h April 2020) can be parsed.");
 
-			$("#file-table").css("display", "none");
-			$("#wait-for-file").css("display", "");
-			$("#spinner").css("display", "none");
-			$("#file-table > .table > tbody").empty();
+			_Reset();
 			return;
 		}
 
