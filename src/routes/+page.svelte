@@ -1,5 +1,4 @@
 <script lang="ts">
-	import init from "demoparser2";
 	import { onMount } from "svelte";
 	import { dragNDrop } from "$lib/helpers/DragNDrop";
 	import { ParseFile } from "$lib/helpers/ParseFile";
@@ -8,6 +7,8 @@
 	import type { CrosshairCode } from "$lib/types/CrosshairCode";
 	import { ShowFileDialog } from "$lib/helpers/ShowFileDialog";
 	import { browser } from "$app/environment";
+	import { page } from "$app/stores";
+	import { base } from "$app/paths";
 
 	let codes: CrosshairCode[] = [];
 	let isLoading = true;
@@ -15,8 +16,21 @@
 	onMount(() => {
 		isLoading = true;
 
-		init()
-			.catch((err) => {
+		// Prefix and suffix with a slash
+		let prefix = base.startsWith("/") ? base : `/${base}`;
+		if (!prefix.endsWith("/")) {
+			prefix += "/";
+		}
+		const demoparser2url = new URL(
+			`${prefix}_app/immutable/assets/demoparser2/demoparser2.js`,
+			$page.url
+		).href;
+
+		import(/* @vite-ignore */ demoparser2url)
+			.then(async () => {
+				await window.wasm_bindgen(demoparser2url.replace(".js", "_bg.wasm"));
+			})
+			.catch((err: Error) => {
 				showError(err, true);
 			})
 			.finally(() => {

@@ -1,0 +1,3 @@
+[submodule "submodules/demoparser2"]
+	path = submodules/demoparser2
+	url = https://github.com/LaihoE/demoparser.git

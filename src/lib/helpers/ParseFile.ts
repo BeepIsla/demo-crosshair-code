@@ -1,5 +1,4 @@
 import type { CrosshairCode } from "$lib/types/CrosshairCode";
-import { parseEvent, parseTicks } from "demoparser2";
 
 export function ParseFile(file: File): Promise<CrosshairCode[]> {
 	return new Promise((resolve, reject) => {
@@ -15,9 +14,12 @@ export function ParseFile(file: File): Promise<CrosshairCode[]> {
 
 			const data = new Uint8Array(ev.target.result);
 			try {
-				const playerSpawns: Map<string, number>[] = parseEvent(data, "round_freeze_end");
+				const playerSpawns: Map<string, number>[] = window.wasm_bindgen.parseEvent(
+					data,
+					"round_freeze_end"
+				);
 				const ticks = playerSpawns.map((s) => s.get("tick"));
-				const players: Map<string, string>[] = parseTicks(
+				const players: Map<string, string>[] = window.wasm_bindgen.parseTicks(
 					data,
 					["crosshair_code"],
 					ticks as unknown as Int32Array

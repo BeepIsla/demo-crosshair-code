@@ -1,7 +1,15 @@
 import fs from "fs";
+import path from "path";
 
-// wasm-pack seems to output a not-so-great package.json
-const pkg = JSON.parse(fs.readFileSync("./node_modules/demoparser2/package.json", "utf8"));
-pkg.main = "demoparser2.js";
-pkg.type = "module";
-fs.writeFileSync("./node_modules/demoparser2/package.json", JSON.stringify(pkg, null, "\t"));
+const root = "./submodules/demoparser2/src/wasm/www/pkg";
+const script = fs.readFileSync(path.join(root, "demoparser2.js"), "utf8");
+const match = script.match(/let script_src;.*let wasm;/gims);
+if (!match) {
+	throw new Error("Could not find script_src");
+}
+
+const replace = "wasm_bindgen = Object.assign(init, { initSync }, __exports);";
+fs.writeFileSync(
+	path.join(root, "demoparser2.js"),
+	script.replace(replace, `window.${replace}`).replace(match[0], `let script_src;\n    let wasm;`)
+);

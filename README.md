@@ -8,9 +8,7 @@ Parse crosshair codes out of any CS2 demo you want! **CSGO is not supported.**
 
 ## Build
 
-1. `npm i`
-2. `npm run fix` (Fix some issues in the `demoparser2/package.json` due to `wasm-pack`)
-3. `npm run dev` / `npm run build`
+Just follow the steps in `.github/workflows/build.yml`.
 
 ## Credits
 
