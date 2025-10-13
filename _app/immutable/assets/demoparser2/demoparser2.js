@@ -552,3 +552,5 @@ let wasm_bindgen;
     wasm_bindgen = Object.assign(__wbg_init, { initSync }, __exports);
 
 })();
+
+export { wasm_bindgen };
