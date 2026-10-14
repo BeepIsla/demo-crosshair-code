@@ -23,6 +23,8 @@ jobs:
         run: |
           sudo apt-get -y install protobuf-compiler
           cargo install wasm-pack
+          # std::time::Instant::now() panics on wasm32-unknown-unknown, only call it when profiling
+          git -C submodules/demoparser2 apply ../../scripts/demoparser-wasm.patch
           cd submodules/demoparser2/src/wasm
           wasm-pack build --out-dir www/pkg --target no-modules
           cd ../../../../
