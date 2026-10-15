@@ -422,6 +422,10 @@ let wasm_bindgen;
             const ret = arg0.versions;
             return ret;
         };
+        imports.wbg.__wbindgen_bigint_from_u64 = function(arg0) {
+            const ret = BigInt.asUintN(64, arg0);
+            return ret;
+        };
         imports.wbg.__wbindgen_error_new = function(arg0, arg1) {
             const ret = new Error(getStringFromWasm0(arg0, arg1));
             return ret;
